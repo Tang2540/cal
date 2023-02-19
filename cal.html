@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=chorme">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAF</title>
+    <style>
+        .answer{
+    display: flex;
+    margin: 1rem 0 ;
+}
+.ans{
+    margin-left: 0.5rem;
+}
+
+form{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    </style>
+</head>
+<body>
+    <form>
+        <div>
+            <input type="text" class="input" name="input">
+            <div class="answer">
+                <div>Answer:</div>
+                <div class="ans"></div>
+            </div>
+            <button class="equal" type="submit">=</button>
+            <button class="fac">!</button>
+            <button class="relativeError">Gauss's relative error = Measure Value,True Value</button>
+            <button class="primeQ">Gauss's estimated quantity of prime numbers = n</button>
+        </div>
+    </form>
+</body>
+<script>
+    const input = document.querySelector(".input");
+const ans = document.querySelector(".ans");
+const equal = document.querySelector(".equal");
+const facBtn = document.querySelector(".fac");
+const relativeErrorBtn = document.querySelector('.relativeError');
+const primeQBtn = document.querySelector('.primeQ');
+
+let active = '';
+let collector = [];
+
+equal.addEventListener('click',(e)=>{
+    e.preventDefault();
+    let answer=0;
+    switch(active){
+        case 'fac':
+            let fac=1;
+            for(let i=1;i<=parseInt(input.value);i++){
+                fac=fac*i
+            }
+            answer=fac
+            break
+        case 're':
+            a=parseInt(input.value[0]);
+            b=parseInt(input.value[2]);
+            answer=(a-b)/b;
+            if(answer<0){
+                answer=String(-(answer)*100)+'%';
+            }
+            else{
+                answer=String(answer*100)+'%';
+            };
+            break
+        case 'pq':
+            for(let i=2;i<=parseInt(input.value);i++){
+                answer+=1/Math.log(i)
+            };
+            break
+        case '':
+            answer=eval(input.value)
+    }
+    ans.innerHTML = answer;
+    input.value='';
+})
+
+facBtn.addEventListener('click',(e)=>{
+    e.preventDefault();
+    input.value=input.value+'!';
+    active = 'fac';
+})
+
+relativeErrorBtn.addEventListener('click',(e)=>{
+    e.preventDefault();
+    input.value=input.value+','
+    active='re'
+})
+
+primeQBtn.addEventListener('click',(e)=>{
+    e.preventDefault();
+    active='pq'
+})
+</script>
+</html>
